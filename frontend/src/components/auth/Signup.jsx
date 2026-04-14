@@ -27,12 +27,12 @@ const Signup = () => {
     const changeFileHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] })
     }
-    const {loading}=useSelector(store=>store.auth)
-    const dispatch=useDispatch()
+    const { loading } = useSelector(store => store.auth)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const submitHandler = async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData() // form data ka use agar koi image pdf or file bhejna ho to nahi to simple json me bhej sakte hai
         formData.append("username", input.username)
         formData.append("email", input.email)
@@ -50,7 +50,7 @@ const Signup = () => {
                 },
                 withCredentials: true
             })
-            
+
             if (res.data.success) {
                 navigate("/login")
                 toast.success(res.data.message)
@@ -58,6 +58,9 @@ const Signup = () => {
         } catch (error) {
             console.log(error)
             toast.error(error.response.data.message)
+        }
+        finally {
+            dispatch(setLoading(false))
         }
     }
     return (
