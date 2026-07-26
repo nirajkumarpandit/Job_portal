@@ -1,21 +1,48 @@
 import React from 'react'
 import { Badge } from '../ui/badge'
+import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
+import { Bookmark } from 'lucide-react'
 
 const JobCards = () => {
   return (
-    <div className='p-5 shadow-xl rounded-md border bg-white border-gray-100 cursor-pointer hover:shadow-gray-400 '>
-        <div className="">
-            <h1 className='text-lg font-medium'>Company name</h1>
-            <p className='text-gray-700 text-sm'>India</p>
+    <div className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
+
+        {/* Top: company info + bookmark */}
+        <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+                <Avatar className="h-11 w-11 border border-gray-100">
+                    <AvatarImage src="" alt="company logo" />
+                    <AvatarFallback className="bg-purple-50 text-purple-600 font-semibold">
+                        C
+                    </AvatarFallback>
+                </Avatar>
+                <div>
+                    <h1 className='text-base font-semibold text-gray-900'>Company name</h1>
+                    <p className='text-gray-500 text-xs'>India</p>
+                </div>
+            </div>
+            <Bookmark className="w-4 h-4 text-gray-400 hover:text-purple-600 transition-colors" />
         </div>
-        <div>
-            <h1 className='text-lg font-medium'>Title</h1>
-            <p className='text-gray-700 text-sm'>Lorem ipsum, dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet. elit. Dolor, eaque?</p>
+
+        {/* Middle: job title + description */}
+        <div className="mt-4">
+            <h1 className='text-lg font-bold text-gray-900'>Title</h1>
+            <p className='text-gray-500 text-sm mt-1 line-clamp-2'>
+                Lorem ipsum, dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet. elit. Dolor, eaque?
+            </p>
         </div>
-        <div className='flex gap-3 mt-3 items-center'>
-            <Badge className={"text-blue-700 font-bold"} variant='outline'>12 Positions</Badge>
-            <Badge className={"text-red-500 font-bold"} variant='outline'>Part time</Badge>
-            <Badge className={"text-purple-600 font-bold"} variant='outline'>24LPA</Badge>
+
+        {/* Bottom: badges */}
+        <div className='flex flex-wrap gap-2 mt-4'>
+            <Badge className="text-blue-700 font-medium bg-blue-50 border-blue-100" variant='outline'>
+                12 Positions
+            </Badge>
+            <Badge className="text-red-500 font-medium bg-red-50 border-red-100" variant='outline'>
+                Part time
+            </Badge>
+            <Badge className="text-purple-600 font-medium bg-purple-50 border-purple-100" variant='outline'>
+                24LPA
+            </Badge>
         </div>
     </div>
   )

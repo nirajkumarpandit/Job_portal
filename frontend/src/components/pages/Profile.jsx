@@ -43,7 +43,7 @@ const Profile = () => {
           <h1 className='font-medium'>Skills</h1>
           <div className='flex gap-3 mt-1 items-center'>
             {
-              user?.profile?.skills.length !==0 ? user?.profile?.skills.map((skill,index)=><Badge key={index} >{skill}</Badge>): <span>NA</span>
+              user?.profile?.skills?.length !==0 ? user?.profile?.skills?.map((skill,index)=><Badge key={index} >{skill}</Badge>): <span>NA</span>
             }
           </div>
         </div>

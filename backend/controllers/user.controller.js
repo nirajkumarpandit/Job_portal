@@ -134,6 +134,7 @@ export const updateProfile = async (req, res) => {
     if(cloudResopnse){
         user.profile.resume=cloudResopnse.secure_url // save the cloudinary url
         user.profile.resumeOriginalName=file.originalname //save the original file name
+        user.profile.profilePhoto=cloudResopnse.secure_url
 
     }
 
@@ -143,7 +144,9 @@ export const updateProfile = async (req, res) => {
         username: user.username,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        profile: user.profile,
+        profile: {
+           profilePhoto: cloudResopnse.secure_url, 
+        },
         role: user.role
     }
     return res.status(200).json({

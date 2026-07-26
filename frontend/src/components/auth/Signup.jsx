@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
-import { Loader2 } from 'lucide-react'
+import { Loader2, User, Mail, Lock, Phone, ImagePlus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '@/redux/authSlice'
 
@@ -30,10 +30,11 @@ const Signup = () => {
     const { loading } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData() // form data ka use agar koi image pdf or file bhejna ho to nahi to simple json me bhej sakte hai
+        const formData = new FormData()
         formData.append("username", input.username)
         formData.append("email", input.email)
         formData.append("phoneNumber", input.phoneNumber)
@@ -57,108 +58,170 @@ const Signup = () => {
             }
         } catch (error) {
             console.log(error)
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || "Signup failed / Server not reachable")
         }
         finally {
             dispatch(setLoading(false))
         }
     }
+
     return (
-        <div>
+        <div className="min-h-screen bg-gray-50">
             <Navbar />
-            <div className=" max-w-6xl flex items-center justify-center mx-auto ">
-                <div className=" w-1/2 flex items-center justify-center flex-col mx-auto mt-6 bg-gray-100 border rounded-4xl">
-                    <h1 className='text-2xl font-bold '>Sign up</h1>
-                    <form onSubmit={submitHandler} className='w-full py-6 px-10'>
-                        <div>
-                            <Label>Username</Label>
-                            <Input
-                                type="text"
-                                placeholder="Enter username"
-                                className='mt-2'
-                                name="username"
-                                value={input.username}
-                                onChange={changeEventHandler}
-                            />
+            <div className="flex items-center justify-center px-4 mt-10 md:mt-16 pb-16">
+                <div className="w-full max-w-lg bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-200/50 px-8 py-10">
+
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className='text-2xl font-bold text-gray-900'>Create an account</h1>
+                        <p className="text-gray-500 text-sm mt-1">Sign up to start your job search journey</p>
+                    </div>
+
+                    <form onSubmit={submitHandler} className='w-full'>
+                        {/* Username */}
+                        <div className='mb-5'>
+                            <Label className="text-sm font-medium text-gray-700">Username</Label>
+                            <div className="relative mt-2">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Input
+                                    type="text"
+                                    placeholder="Enter username"
+                                    className='pl-9'
+                                    name="username"
+                                    value={input.username}
+                                    onChange={changeEventHandler}
+                                />
+                            </div>
                         </div>
-                        <div className='mt-5'>
-                            <Label>Email</Label>
-                            <Input
-                                type="email"
-                                placeholder="Enter email"
-                                className='mt-2'
-                                name="email"
-                                value={input.email}
-                                onChange={changeEventHandler}
-                            />
+
+                        {/* Email */}
+                        <div className='mb-5'>
+                            <Label className="text-sm font-medium text-gray-700">Email</Label>
+                            <div className="relative mt-2">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Input
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    className='pl-9'
+                                    name="email"
+                                    value={input.email}
+                                    onChange={changeEventHandler}
+                                />
+                            </div>
                         </div>
-                        <div className='mt-5'>
-                            <Label>Phone number</Label>
-                            <Input
-                                type="text"
-                                placeholder="Enter Phone number"
-                                className='mt-2'
-                                name="phoneNumber"
-                                value={input.phoneNumber}
-                                onChange={changeEventHandler}
-                            />
+
+                        {/* Phone number */}
+                        <div className='mb-5'>
+                            <Label className="text-sm font-medium text-gray-700">Phone number</Label>
+                            <div className="relative mt-2">
+                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Input
+                                    type="text"
+                                    placeholder="Enter phone number"
+                                    className='pl-9'
+                                    name="phoneNumber"
+                                    value={input.phoneNumber}
+                                    onChange={changeEventHandler}
+                                />
+                            </div>
                         </div>
-                        <div className='mt-5'>
-                            <Label>Password</Label>
-                            <Input
-                                type="password"
-                                placeholder="Enter password"
-                                className='mt-2'
-                                name="password"
-                                value={input.password}
-                                onChange={changeEventHandler}
-                            />
+
+                        {/* Password */}
+                        <div className='mb-5'>
+                            <Label className="text-sm font-medium text-gray-700">Password</Label>
+                            <div className="relative mt-2">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    className='pl-9'
+                                    name="password"
+                                    value={input.password}
+                                    onChange={changeEventHandler}
+                                />
+                            </div>
                         </div>
-                        <div className='mt-5 flex gap-10 items-center'>
-                            <RadioGroup defaultValue="comfortable" className="w-fit flex gap-3 mt-4">
-                                <div className="flex items-center gap-3">
-                                    <Input
-                                        className='cursor-pointer'
+
+                        {/* Role selection */}
+                        <div className="mb-5">
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">I am a</Label>
+                            <RadioGroup defaultValue="comfortable" className="flex gap-3">
+                                <label
+                                    htmlFor="r1"
+                                    className={`flex-1 flex items-center justify-center gap-2 border rounded-lg py-2.5 text-sm cursor-pointer transition-colors
+                                        ${input.role === 'student' ? 'border-purple-600 bg-purple-50 text-purple-700 font-medium' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                                >
+                                    <input
+                                        id="r1"
+                                        className='cursor-pointer accent-purple-600'
                                         type="radio"
                                         name="role"
                                         value="student"
                                         checked={input.role === 'student'}
                                         onChange={changeEventHandler}
                                     />
-                                    <Label htmlFor="r1">student</Label>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <Input
-                                        className='cursor-pointer'
+                                    Student
+                                </label>
+                                <label
+                                    htmlFor="r2"
+                                    className={`flex-1 flex items-center justify-center gap-2 border rounded-lg py-2.5 text-sm cursor-pointer transition-colors
+                                        ${input.role === 'recruiter' ? 'border-purple-600 bg-purple-50 text-purple-700 font-medium' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                                >
+                                    <input
+                                        id="r2"
+                                        className='cursor-pointer accent-purple-600'
                                         type="radio"
                                         name="role"
                                         value="recruiter"
                                         checked={input.role === 'recruiter'}
                                         onChange={changeEventHandler}
                                     />
-                                    <Label htmlFor="r2">recruiter</Label>
-                                </div>
+                                    Recruiter
+                                </label>
                             </RadioGroup>
-                            <div className="">
-                                <Label>Profile</Label>
+                        </div>
+
+                        {/* Profile picture */}
+                        <div className="mb-6">
+                            <Label className="text-sm font-medium text-gray-700 mb-2 block">Profile picture</Label>
+                            <label
+                                htmlFor="profile-upload"
+                                className="flex items-center gap-3 border border-dashed border-gray-300 rounded-lg py-3 px-4 cursor-pointer hover:bg-gray-50 hover:border-purple-300 transition-colors"
+                            >
+                                <ImagePlus className="w-5 h-5 text-gray-400 shrink-0" />
+                                <span className="text-sm text-gray-500 truncate">
+                                    {input.file ? input.file.name : "Click to upload a photo"}
+                                </span>
                                 <Input
+                                    id="profile-upload"
                                     accept="image/*"
                                     type="file"
                                     onChange={changeFileHandler}
-                                    className="cursor-pointer mt-2"
+                                    className="hidden"
                                 />
-                            </div>
+                            </label>
                         </div>
 
-                        <div className='mt-5' >
+                        {/* Submit */}
+                        <div>
                             {
-                                loading ? <Button className={"w-full"}><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button className='w-full cursor-pointer' type="submit">Signup</Button>
+                                loading
+                                    ? <Button disabled className="w-full bg-violet-600 hover:bg-violet-700">
+                                        <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                                    </Button>
+                                    : <Button className='w-full bg-violet-600 hover:bg-violet-700 cursor-pointer transition-colors' type="submit">
+                                        Signup
+                                    </Button>
                             }
                         </div>
-                        <div className='mt-5 flex items-center justify-center' >
-                            <p>Already have an account?<span><Link to="/login" className='text-blue-600 font-bold cursor-pointer mx-2 ' >login</Link></span></p>
-                        </div>
 
+                        {/* Footer link */}
+                        <div className='mt-6 text-center text-sm text-gray-500'>
+                            Already have an account?{' '}
+                            <Link to="/login" className='text-purple-600 font-semibold hover:underline'>
+                                Login
+                            </Link>
+                        </div>
                     </form>
                 </div>
             </div>

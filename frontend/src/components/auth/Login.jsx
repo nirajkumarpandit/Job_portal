@@ -10,7 +10,8 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Mail, Lock } from 'lucide-react'
+
 const Login = () => {
 
   const [input, setInput] = useState({
@@ -22,10 +23,11 @@ const Login = () => {
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value })
   }
-  const{loading}=useSelector(store=>store.auth)
+  const { loading } = useSelector(store => store.auth)
   const navigate = useNavigate()
-  const dispatch= useDispatch()
-  const submitHandler = async (e) => { // yaha koi file nahi bheja ja raha to formdata ka use nahi hoga
+  const dispatch = useDispatch()
+
+  const submitHandler = async (e) => {
     e.preventDefault();
     try {
       dispatch(setLoading(true))
@@ -44,72 +46,114 @@ const Login = () => {
       console.log(error)
       toast.error(error.response?.data?.message || "Login failed / Server not reachable")
     }
-    finally{
+    finally {
       dispatch(setLoading(false))
     }
   }
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className=" max-w-6xl flex items-center justify-center mx-auto ">
-        <div className=" w-1/2 pt-4 flex items-center justify-center flex-col mx-auto mt-10 bg-gray-100 border rounded-4xl">
-          <h1 className='text-2xl font-bold '>Login</h1>
-          <form onSubmit={submitHandler} className='w-full py-6 px-10'>
-            <div className='mt-5'>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                placeholder="Enter email"
-                className='mt-2'
-                name="email"
-                value={input.email}
-                onChange={changeEventHandler}
-              />
+      <div className="flex items-center justify-center px-4 mt-10 md:mt-16">
+        <div className="w-full max-w-md bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-200/50 px-8 py-10">
+
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className='text-2xl font-bold text-gray-900'>Welcome back</h1>
+            <p className="text-gray-500 text-sm mt-1">Login to continue your job search</p>
+          </div>
+
+          <form onSubmit={submitHandler} className='w-full'>
+            {/* Email */}
+            <div className='mb-5'>
+              <Label className="text-sm font-medium text-gray-700">Email</Label>
+              <div className="relative mt-2">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  type="email"
+                  placeholder="you@example.com"
+                  className='pl-9'
+                  name="email"
+                  value={input.email}
+                  onChange={changeEventHandler}
+                />
+              </div>
             </div>
-            <div className='mt-5'>
-              <Label>Password</Label>
-              <Input
-                type="password"
-                placeholder="Enter password"
-                className='mt-2'
-                name="password"
-                value={input.password}
-                onChange={changeEventHandler}
-              />
+
+            {/* Password */}
+            <div className='mb-5'>
+              <Label className="text-sm font-medium text-gray-700">Password</Label>
+              <div className="relative mt-2">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  className='pl-9'
+                  name="password"
+                  value={input.password}
+                  onChange={changeEventHandler}
+                />
+              </div>
             </div>
-            <div className="mt-5">
-              <RadioGroup defaultValue="comfortable" className="w-fit flex gap-3">
-                <div className="flex items-center gap-3">
-                  <Input
-                    className='cursor-pointer'
+
+            {/* Role selection */}
+            <div className="mb-6">
+              <Label className="text-sm font-medium text-gray-700 mb-2 block">I am a</Label>
+              <RadioGroup defaultValue="comfortable" className="flex gap-3">
+                <label
+                  htmlFor="r1"
+                  className={`flex-1 flex items-center justify-center gap-2 border rounded-lg py-2.5 text-sm cursor-pointer transition-colors
+                    ${input.role === 'student' ? 'border-purple-600 bg-purple-50 text-purple-700 font-medium' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                >
+                  <input
+                    id="r1"
+                    className='cursor-pointer accent-purple-600'
                     type="radio"
                     name="role"
                     value="student"
                     checked={input.role === 'student'}
                     onChange={changeEventHandler}
                   />
-                  <Label htmlFor="r1">student</Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Input
-                    className='cursor-pointer'
+                  Student
+                </label>
+                <label
+                  htmlFor="r2"
+                  className={`flex-1 flex items-center justify-center gap-2 border rounded-lg py-2.5 text-sm cursor-pointer transition-colors
+                    ${input.role === 'recruiter' ? 'border-purple-600 bg-purple-50 text-purple-700 font-medium' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                >
+                  <input
+                    id="r2"
+                    className='cursor-pointer accent-purple-600'
                     type="radio"
                     name="role"
                     value="recruiter"
                     checked={input.role === 'recruiter'}
                     onChange={changeEventHandler}
                   />
-                  <Label htmlFor="r2">recruiter</Label>
-                </div>
+                  Recruiter
+                </label>
               </RadioGroup>
             </div>
-            <div className='mt-5' >
+
+            {/* Submit */}
+            <div>
               {
-                loading ?<Button className={"w-full"}><Loader2 className='mr-2 h-4 w-4 animate-spin'/> Please wait </Button>: <Button className='w-full cursor-pointer' type="submit">Login</Button>
+                loading
+                  ? <Button disabled className="w-full bg-violet-600 hover:bg-violet-700">
+                      <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait
+                    </Button>
+                  : <Button className='w-full bg-violet-600 hover:bg-violet-700 cursor-pointer transition-colors' type="submit">
+                      Login
+                    </Button>
               }
             </div>
-            <div className='mt-5 flex items-center justify-center' >
-              <p>Don't have an account?<span><Link to="/signup" className='text-blue-600 font-bold cursor-pointer mx-2 ' >Signup</Link></span></p>
+
+            {/* Footer link */}
+            <div className='mt-6 text-center text-sm text-gray-500'>
+              Don't have an account?{' '}
+              <Link to="/signup" className='text-purple-600 font-semibold hover:underline'>
+                Signup
+              </Link>
             </div>
           </form>
         </div>

@@ -37,13 +37,13 @@ const Navbar = () => {
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Avatar>
-                                        <AvatarImage className={"cursor-pointer"} src="https://github.com/shadcn.png" />
+                                        <AvatarImage className={"cursor-pointer"} src={user?.profile?.profilePhoto} />
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <div className="mx-5 flex gap-3.5">
                                         <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarImage src={user?.profile?.profilePhoto} />
                                         </Avatar>
                                         <div className="">
                                             <h1 className='font-bold text-sm '>Niraj frontend developer</h1>
