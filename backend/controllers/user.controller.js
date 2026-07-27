@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken"
 import getDataUri from '../utils/datauri.js'
 import cloudinary from '../utils/cludnary.js'
+import { profile } from 'console'
 
 // register user
 export const register = async (req, res) => {
@@ -14,9 +15,12 @@ export const register = async (req, res) => {
                 success: false
             })
         }
+        const file=req.file
+        const fileUri= getDataUri(file)
+        const cloudResopnse= await cloudinary.uploader.upload(fileUri.content)
         const user = await User.findOne({ email });
         if (user) {
-           return res.status(400).json({
+            return res.status(400).json({
                 message: "Email already exist",
                 success: false
             })
@@ -30,7 +34,10 @@ export const register = async (req, res) => {
             email,
             password: hashPassword,
             role,
-            phoneNumber
+            phoneNumber,
+            profile:{
+                profilePhoto:cloudResopnse.secure_url
+            }
         })
         return res.status(201).json({
             message: "user successfully created.",
@@ -107,51 +114,40 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     const { username, email, phoneNumber, skills, bio } = req.body
     // cloudnary implement
-    const file=req.file
-    const fileUri= getDataUri(file)
-    const cloudResopnse =await cloudinary.uploader.upload(fileUri.content)
-
+    const file = req.file
+    const fileUri = getDataUri(file)
+    const cloudResopnse = await cloudinary.uploader.upload(fileUri.content);
     let skillsArray;
-    if(skills){
-        skillsArray=skills.split(",")
+    if (skills) {
+        skillsArray = skills.split(",")
     }
     //find kon update kar raha hai
-    const userId=req.id // isAuthenticate middleware se aayega
-    let user=await User.findById(userId)
-    if(!user){
+    const userId = req.id // isAuthenticate middleware se aayega
+    let user = await User.findById(userId)
+    if (!user) {
         return res.status(404).json({
-            message:"user not found",
-            success:false
+            message: "user not found",
+            success: false
         })
     }
     // update the value
-    if(username) user.username=username
-    if(email) user.email=email
-    if(phoneNumber) user.phoneNumber=phoneNumber
-    if(bio) user.profile.bio=bio
-    if(skills) user.profile.skills=skillsArray
+    if (username) user.username = username
+    if (email) user.email = email
+    if (phoneNumber) user.phoneNumber = phoneNumber
+    if (bio) user.profile.bio = bio
+    if (skills) user.profile.skills = skillsArray
 
-    if(cloudResopnse){
-        user.profile.resume=cloudResopnse.secure_url // save the cloudinary url
-        user.profile.resumeOriginalName=file.originalname //save the original file name
-        user.profile.profilePhoto=cloudResopnse.secure_url
+    if (cloudResopnse) {
+        user.profile.resume = cloudResopnse.secure_url // save the cloudinary url
+        user.profile.resumeOriginalName = file.originalname //save the original file name
 
     }
-
     await user.save();
-     user = {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        profile: {
-           profilePhoto: cloudResopnse.secure_url, 
-        },
-        role: user.role
-    }
-    return res.status(200).json({
-        message:"profile update successfully",
-        user,
-        success:true
-    })
+   const updatedUser = await User.findById(userId);
+
+return res.status(200).json({
+    success: true,
+    message: "Profile updated successfully",
+    user: updatedUser
+});
 }

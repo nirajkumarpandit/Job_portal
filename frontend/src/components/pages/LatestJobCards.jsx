@@ -3,7 +3,7 @@ import { Badge } from '../ui/badge'
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
 import { Bookmark } from 'lucide-react'
 
-const JobCards = () => {
+const JobCards = ({job}) => {
   return (
     <div className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
 
@@ -17,7 +17,7 @@ const JobCards = () => {
                     </AvatarFallback>
                 </Avatar>
                 <div>
-                    <h1 className='text-base font-semibold text-gray-900'>Company name</h1>
+                    <h1 className='text-base font-semibold text-gray-900'>{job?.company?.companyName}</h1>
                     <p className='text-gray-500 text-xs'>India</p>
                 </div>
             </div>
@@ -28,7 +28,8 @@ const JobCards = () => {
         <div className="mt-4">
             <h1 className='text-lg font-bold text-gray-900'>Title</h1>
             <p className='text-gray-500 text-sm mt-1 line-clamp-2'>
-                Lorem ipsum, dolor sit amet consectetur adipisicing Lorem ipsum dolor sit amet. elit. Dolor, eaque?
+                {job?.title}
+                {job?.description}
             </p>
         </div>
 
@@ -38,10 +39,10 @@ const JobCards = () => {
                 12 Positions
             </Badge>
             <Badge className="text-red-500 font-medium bg-red-50 border-red-100" variant='outline'>
-                Part time
+                {job?.jobType}
             </Badge>
             <Badge className="text-purple-600 font-medium bg-purple-50 border-purple-100" variant='outline'>
-                24LPA
+                {job?.salary}LPA
             </Badge>
         </div>
     </div>
