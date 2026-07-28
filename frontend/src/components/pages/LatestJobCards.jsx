@@ -2,10 +2,12 @@ import React from 'react'
 import { Badge } from '../ui/badge'
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
 import { Bookmark } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const JobCards = ({job}) => {
+    const navigate =useNavigate()
   return (
-    <div className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
+    <div onClick={() => navigate(`/jobDescription/${job._id}`)} className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
 
         {/* Top: company info + bookmark */}
         <div className="flex items-start justify-between">
@@ -26,9 +28,8 @@ const JobCards = ({job}) => {
 
         {/* Middle: job title + description */}
         <div className="mt-4">
-            <h1 className='text-lg font-bold text-gray-900'>Title</h1>
+            <h1 className='text-lg font-bold text-gray-900'>{job?.title}</h1>
             <p className='text-gray-500 text-sm mt-1 line-clamp-2'>
-                {job?.title}
                 {job?.description}
             </p>
         </div>
