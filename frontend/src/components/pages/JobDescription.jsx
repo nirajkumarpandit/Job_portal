@@ -1,35 +1,59 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import axios from 'axios'
-import { JOB_API_END_POINT } from '@/utils/constant'
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'sonner'
 import { setSingleJob } from '@/redux/jobSlice'
 
 const JobDescription = () => {
-    const isApplied = true
-    const {jobId} =useParams()
-    const dispatch =useDispatch()
+    const { jobId } = useParams()
+    const { singleJob } = useSelector(store => store.job)
+    const dispatch = useDispatch()
+    const { user } = useSelector(store => store.auth)
+    const isInitialApplied = singleJob?.applications?.includes(user?._id) || false
+
+    console.log(isInitialApplied)
+    const [isApplied, setIsApplied] = useState(isInitialApplied)
+    const applyJobHandler = async () => {
+        try {
+            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true })
+            console.log(res.data)
+            if (res.data.success) {
+                setIsApplied(true)
+                const updateSingleJob = {
+                    ...singleJob,
+                    applications: [...singleJob.applications, user?._id]
+                }
+                dispatch(setSingleJob(updateSingleJob))
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            console.error(error)
+            toast.error(error.response?.data?.message)
+        }
+    }
+
     useEffect(() => {
-        const fetchSingleJob=async()=>{
+        const fetchSingleJob = async () => {
             try {
-                const res =await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true})
-                console.log(`${JOB_API_END_POINT}/get/${jobId}`)
-                if(res.data.success){
-                    console.log(res.data.job)
+                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true })
+                if (res.data.success) {
                     dispatch(setSingleJob(res.data.job))
+                    setIsApplied(res.data.job.applications.includes(user?._id))
+
                 }
             } catch (error) {
                 console.log(error)
             }
         }
-        if(jobId){
+        if (jobId) {
             fetchSingleJob()
         }
     }, [jobId])
-    const {singleJob}= useSelector(store=>store.job)
-    
+
     return (
         <div>
             <div className="max-w-4xl mx-auto my-10">
@@ -43,6 +67,7 @@ const JobDescription = () => {
                         </div>
                     </div>
                     <Button
+                        onClick={isApplied ? null : applyJobHandler}
                         disabled={isApplied}
                         className={`rounded-lg ${isApplied ? "cursor-not-allowed bg-gray-700  hover:bg-gray-700 " : "bg-violet-600 cursor-pointer hover:bg-violet-800"}`}>
                         {isApplied ? "Already Applied" : "Apply now"}
@@ -50,12 +75,12 @@ const JobDescription = () => {
                 </div>
                 <div className="border-b-2 border-b-gray-300 mt-5 pb-2 font-medium">{singleJob?.description}</div>
                 <div className="">
-                    <h1 className='font-bold'>Role : <span className='font-medium text-gray-700'>Frontend developer</span></h1>
+                    <h1 className='font-bold'>Role : <span className='font-medium text-gray-700'>{singleJob?.title}</span></h1>
                     <h1 className='font-bold'>Description : <span className='font-medium text-gray-700'>{singleJob?.description}</span></h1>
                     <h1 className='font-bold'>Location : <span className='font-medium text-gray-700'>{singleJob?.location}</span></h1>
                     <h1 className='font-bold'>Salary : <span className='font-medium text-gray-700'>{singleJob?.salary}LPA</span></h1>
-                    <h1 className='font-bold'>Total application : <span className='font-medium text-gray-700'>10</span></h1>
-                    <h1 className='font-bold'>Post date : <span className='font-medium text-gray-700'>{singleJob?.createdAt}</span></h1>
+                    <h1 className='font-bold'>Total application : <span className='font-medium text-gray-700'>{singleJob?.applications?.length}</span></h1>
+                    <h1 className='font-bold'>Post date : <span className='font-medium text-gray-700'>{new Date(singleJob?.createdAt).toLocaleDateString()}</span></h1>
                 </div>
             </div>
         </div>
