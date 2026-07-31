@@ -13,9 +13,7 @@ const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job)
     const dispatch = useDispatch()
     const { user } = useSelector(store => store.auth)
-    const isInitialApplied = singleJob?.applications?.includes(user?._id) || false
-
-    console.log(isInitialApplied)
+    const isInitialApplied = singleJob?.applications?.some(application=>application.applicant=== user?._id) || false
     const [isApplied, setIsApplied] = useState(isInitialApplied)
     const applyJobHandler = async () => {
         try {
@@ -25,7 +23,7 @@ const JobDescription = () => {
                 setIsApplied(true)
                 const updateSingleJob = {
                     ...singleJob,
-                    applications: [...singleJob.applications, user?._id]
+                    applications: [...singleJob.applications,{applicant:user?._id}]
                 }
                 dispatch(setSingleJob(updateSingleJob))
                 toast.success(res.data.message)
@@ -35,15 +33,13 @@ const JobDescription = () => {
             toast.error(error.response?.data?.message)
         }
     }
-
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true })
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job))
-                    setIsApplied(res.data.job.applications.includes(user?._id))
-
+                    setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id))
                 }
             } catch (error) {
                 console.log(error)
@@ -53,7 +49,6 @@ const JobDescription = () => {
             fetchSingleJob()
         }
     }, [jobId])
-
     return (
         <div>
             <div className="max-w-4xl mx-auto my-10">
