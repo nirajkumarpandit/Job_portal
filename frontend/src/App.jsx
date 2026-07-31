@@ -7,6 +7,9 @@ import Jobs from "./components/pages/Jobs"
 import Browse from "./components/pages/Browse"
 import Profile from "./components/pages/Profile"
 import JobDescription from "./components/pages/JobDescription"
+import Companies from "./components/recruiter/Companies"
+import CreateCompany from "./components/recruiter/CreateCompany"
+import CompanySetup from "./components/recruiter/CompanySetup"
 
 const appRouter= createBrowserRouter([
   {
@@ -35,6 +38,19 @@ const appRouter= createBrowserRouter([
   },{
     path:"/profile",
     element:<Profile/>
+  },
+  // recruiter ka route
+  {
+    path :'/companies',
+    element :<Companies/>
+  },
+  {
+    path :"/company/create",
+    element :<CreateCompany/>
+  },
+  {
+    path :"/company/:id",
+    element :<CompanySetup/>
   }
 ])
 function App() {

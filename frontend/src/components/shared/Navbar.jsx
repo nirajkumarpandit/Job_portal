@@ -77,13 +77,19 @@ const Navbar = () => {
                                             <AvatarImage src={user?.profile?.profilePhoto} />
                                         </Avatar>
                                         <div className="">
-                                            <h1 className='font-bold text-sm '>Niraj frontend developer</h1>
-                                            <p className='text-sm text-gray-600'>Lorem ipsum dolor sit amet.</p>
+                                            <h1 className='font-bold text-sm '>{user?.username}</h1>
+                                            <p className='text-sm text-gray-600'>{user?.profile?.bio}</p>
                                         </div>
                                     </div>
                                     <div className="mx-5 my-3 flex gap-5">
-                                        <User2Icon />
-                                        <Link to="/profile" className='font-medium text-sm hover:underline text-blue-600'>View Profile</Link>
+                                        {
+                                            user && user.role === 'student' && (
+                                                <>
+                                                    <User2Icon />
+                                                    <Link to="/profile" className='font-medium text-sm hover:underline text-blue-600'>View Profile</Link></>
+                                            )
+                                        }
+
                                     </div>
                                     <div className="mx-5 flex gap-5">
                                         <LogOut />
