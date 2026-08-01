@@ -19,9 +19,9 @@ const CreateCompany = () => {
             const res= await axios.post(`${COMPANY_API_END_POINT}/register`,{companyName},{
                 withCredentials:true
             })
-            if(res.data.success){
-                dispatch(setSingleCompany(res.data.company))
-                toast.success(res.data.message)
+            if(res?.data?.success){
+                dispatch(setSingleCompany(res?.data?.company))
+                toast.success(res?.data?.message)
                 const companyId =res?.data?.company?._id
                 navigate(`/company/${companyId}`)
             }

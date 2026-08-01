@@ -10,15 +10,15 @@ const useGetCompanyById = (companyId) => {
     const fetchCompanyById =async()=>{
         try {
             const res =await axios.get(`${COMPANY_API_END_POINT}/get/${companyId}`,{withCredentials:true})
-            if(res.data.success){
-                dispatch(setSingleCompany(res.data.company))
+            if(res?.data?.success){
+                dispatch(setSingleCompany(res?.data?.company))
             }
         } catch (error) {
             console.log(error)
         }
     }
     fetchCompanyById()
-  }, [companyId,dispatch])
+  }, [companyId])
 }
 
 export default useGetCompanyById

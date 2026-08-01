@@ -10,6 +10,7 @@ import storage from "redux-persist/lib/storage"; // localStorage use karega
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["auth"], // Sirf auth persist hoga
 };
 
 // Root reducer

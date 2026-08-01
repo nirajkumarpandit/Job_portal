@@ -15,9 +15,9 @@ export const register = async (req, res) => {
                 success: false
             })
         }
-        const file=req.file
-        const fileUri= getDataUri(file)
-        const cloudResopnse= await cloudinary.uploader.upload(fileUri.content)
+        const file = req.file
+        const fileUri = getDataUri(file)
+        const cloudResopnse = await cloudinary.uploader.upload(fileUri.content)
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
@@ -35,8 +35,8 @@ export const register = async (req, res) => {
             password: hashPassword,
             role,
             phoneNumber,
-            profile:{
-                profilePhoto:cloudResopnse.secure_url
+            profile: {
+                profilePhoto: cloudResopnse.secure_url
             }
         })
         return res.status(201).json({
@@ -46,6 +46,11 @@ export const register = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false,
+            error: error.message
+        });
     }
 }
 
@@ -143,11 +148,11 @@ export const updateProfile = async (req, res) => {
 
     }
     await user.save();
-   const updatedUser = await User.findById(userId);
+    const updatedUser = await User.findById(userId);
 
-return res.status(200).json({
-    success: true,
-    message: "Profile updated successfully",
-    user: updatedUser
-});
+    return res.status(200).json({
+        success: true,
+        message: "Profile updated successfully",
+        user: updatedUser
+    });
 }

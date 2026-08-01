@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 const JobCards = ({job}) => {
     const navigate =useNavigate()
   return (
-    <div onClick={() => navigate(`/jobDescription/${job._id}`)} className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
+    <div onClick={() => navigate(`/jobDescription/${job?._id}`)} className='p-5 rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:border-purple-100 transition-all duration-300 cursor-pointer'>
 
         {/* Top: company info + bookmark */}
         <div className="flex items-start justify-between">

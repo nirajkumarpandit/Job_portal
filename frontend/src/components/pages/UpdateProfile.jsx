@@ -46,13 +46,13 @@ const UpdateProfile = ({ open, setOpen }) => {
                 },
                 withCredentials:true
             })
-            if(res.data.success){
-                dispatch(setUser(res.data.user))
+            if(res?.data?.success){
+                dispatch(setUser(res?.data?.user))
                 toast.success(res.data.message)
                 setOpen(false)
             }
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error?.response?.data?.message)
         }
        finally{
         setLoading(false)

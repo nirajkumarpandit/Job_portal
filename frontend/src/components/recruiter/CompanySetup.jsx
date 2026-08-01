@@ -52,14 +52,14 @@ const CompanySetup = () => {
         },
         withCredentials: true
       })
-      if (res.data.success) {
-        dispatch(setSingleCompany(res.data.company))
-        toast.success(res.data.message)
+      if (res?.data?.success) {
+        dispatch(setSingleCompany(res?.data?.company))
+        toast.success(res?.data?.message)
         navigate("/companies")
       }
     } catch (error) {
       console.log(error)
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.message)
     } finally {
       setLoading(false)
     }

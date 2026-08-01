@@ -44,10 +44,10 @@ const Navbar = () => {
                 <div className='flex gap-8 items-center'>
                     <ul className='flex items-center gap-4 font-medium'>
                         {
-                            user && user.role === 'recruiter' ? (
+                            user && user?.role === 'recruiter' ? (
                                 <>
                                     <li><Link to="/">companies</Link></li>
-                                    <li><Link to="/jobs" >Jobs</Link></li>
+                                    <li><Link to="/recruiterJob" >Jobs</Link></li>
                                 </>
                             ) : (
                                 <>
@@ -99,7 +99,6 @@ const Navbar = () => {
                             </Popover>
                         )
                     }
-
                 </div>
             </div>
         </div>
