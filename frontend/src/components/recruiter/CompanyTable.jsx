@@ -45,7 +45,7 @@ const CompanyTable = () => {
                                     <TableCell>{(company?.createdAt).split("T")[0]}</TableCell>
                                     <TableCell>
                                         <Popover>
-                                            <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
+                                            <PopoverTrigger className="cursor-pointer" ><MoreHorizontal /></PopoverTrigger>
                                             <PopoverContent className={"w-25"}>
                                                 <div className="flex items-center gap-2 cursor-pointer">
                                                     <Edit2 className='w-4' />

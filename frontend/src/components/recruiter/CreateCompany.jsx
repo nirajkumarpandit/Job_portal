@@ -45,8 +45,8 @@ const CreateCompany = () => {
                     onChange={(e)=>setCompanyName(e.target.value)}
                 />
                 <div className="my-5 flex items-center gap-4">
-                    <Button variant='outline' onClick={() => navigate('/companies')} >Cancel</Button>
-                    <Button onClick={registerCompany} >Continue</Button>
+                    <Button className={"cursor-pointer"} variant='outline' onClick={() => navigate('/companies')} >Cancel</Button>
+                    <Button className={"cursor-pointer"} onClick={registerCompany} >Continue</Button>
                 </div>
             </div>
         </div>

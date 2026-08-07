@@ -28,7 +28,7 @@ const Companies = () => {
             onChange={(e)=>setInput(e.target.value)}
             
           />
-          <Button onClick ={()=>navigate('/company/create')} >New company</Button>
+          <Button className={"cursor-pointer"} onClick ={()=>navigate('/company/create')} >New company</Button>
         </div>
         <CompanyTable/>
       </div>

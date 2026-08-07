@@ -79,7 +79,7 @@ const CompanySetup = () => {
       <Navbar />
       <div className="max-w-xl mx-auto my-10">
         <div className="flex items-center justify-between">
-            <Button variant='outline' >
+            <Button className={"cursor-pointer"} variant='outline' >
               <ArrowLeft />
               <span onClick={()=>navigate('/company/create')} >Back</span>
             </Button>
