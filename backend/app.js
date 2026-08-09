@@ -38,8 +38,6 @@ app.use((err , req, res, next)=>{
         success:false
     })
 })
+connectDB();
 
-app.listen(PORT,()=>{
-    connectDB()
-    console.log(`server listining on port ${PORT}`)
-})
+export default app;
