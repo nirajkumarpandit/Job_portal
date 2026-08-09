@@ -15,17 +15,20 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 const corsOption={
-    origin: 'http://localhost:5173',
+    origin: 'https://job-frontend-bice.vercel.app',
     credentials:true
 }
 
 app.use(cors(corsOption))
-const PORT= process.env.PORT ||3000
+const PORT= 8000
 
 app.use("/api/user",userRouter)
 app.use("/api/company",companyRouter)
 app.use("/api/job",jobRouter)
 app.use("/api/application",applicationRouter)
+app.get('/',(req,res)=>{
+    res.send("api working")
+})
 
 // universal error handler
 app.use((err , req, res, next)=>{
