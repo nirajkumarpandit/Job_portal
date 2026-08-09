@@ -13,6 +13,14 @@ const jobSchema=mongoose.Schema({
         type:Number,
         required:true
     },
+    position:{
+        type:Number,
+        required:true
+    },
+    experience:{
+        type:Number,
+        required:true
+    },
     requirement:{
         type:String
     },

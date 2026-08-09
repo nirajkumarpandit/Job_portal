@@ -13,10 +13,7 @@ const JobCards = ({job}) => {
         <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
                 <Avatar className="h-11 w-11 border border-gray-100">
-                    <AvatarImage src="" alt="company logo" />
-                    <AvatarFallback className="bg-purple-50 text-purple-600 font-semibold">
-                        C
-                    </AvatarFallback>
+                    <AvatarImage src={job?.company?.logo} alt="company logo" />
                 </Avatar>
                 <div>
                     <h1 className='text-base font-semibold text-gray-900'>{job?.company?.companyName}</h1>
@@ -37,7 +34,7 @@ const JobCards = ({job}) => {
         {/* Bottom: badges */}
         <div className='flex flex-wrap gap-2 mt-4'>
             <Badge className="text-blue-700 font-medium bg-blue-50 border-blue-100" variant='outline'>
-                12 Positions
+                {job?.position} Positions
             </Badge>
             <Badge className="text-red-500 font-medium bg-red-50 border-red-100" variant='outline'>
                 {job?.jobType}

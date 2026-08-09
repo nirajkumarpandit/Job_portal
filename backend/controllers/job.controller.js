@@ -3,7 +3,7 @@ import Job from '../models/job.model.js'
 // create job
 // admin post karega
 export const postJob=async(req,res)=>{
-    let{title,description,salary,requirement,location,jobType,company}=req.body
+    let{title,description,salary,requirement,location,jobType,company,position,experience}=req.body
     const userId =req.id // kon create kar raha hai
     if(!title || !description || !salary || !requirement || !location || !jobType || !company){
         return res.status(400).json({
@@ -18,6 +18,8 @@ export const postJob=async(req,res)=>{
         requirement,
         location,
         jobType,
+        position,
+        experience,
         company:company,
         createdBy:userId
     })
@@ -118,7 +120,9 @@ export const deleteJob =async(req,res)=>{
 // admin ne kitne job create kiye hai
 export const getAdminJob =async(req,res)=>{
     const adminId=req.id
-    const job=await Job.find({createdBy:adminId})
+    const job=await Job.find({createdBy:adminId}).populate({
+        path:"company"
+    })
     if(!job || job.length===0){
         return res.status(404).json({
             message:"job not found",

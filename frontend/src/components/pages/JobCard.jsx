@@ -4,6 +4,7 @@ import { Bookmark, MapPin, Briefcase } from 'lucide-react'
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
 import { Badge } from '../ui/badge'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const JobCard = ({job}) => {
   const navigate = useNavigate()
@@ -32,14 +33,13 @@ const JobCard = ({job}) => {
       {/* Company info */}
       <div className="flex items-center gap-3 mb-4">
         <Avatar className="h-12 w-12 rounded-xl border border-gray-100 shadow-sm">
-          <AvatarImage src="https://www.clipartmax.com/png/middle/270-2703019_pictures-gallery-of-company-logos-design-free-logo-design-3d-png.png" />
-          <AvatarFallback className="rounded-xl">CN</AvatarFallback>
+          <AvatarImage src={job?.company?.logo} />
         </Avatar>
         <div>
           <h1 className='font-semibold text-gray-900 text-base leading-tight'>{job?.company?.companyName}</h1>
           <p className='flex items-center gap-1 text-gray-500 text-sm'>
             <MapPin className="h-3.5 w-3.5" />
-            India
+            {job?.location}, India
           </p>
         </div>
       </div>
