@@ -15,8 +15,6 @@ export const register = async (req, res) => {
                 success: false
             })
         }
-        console.log("api hit")
-        console.log(req.body)
         const file = req.file
         const fileUri = getDataUri(file)
         const cloudResopnse = await cloudinary.uploader.upload(fileUri.content)
@@ -66,8 +64,6 @@ export const login = async (req, res) => {
             success: false
         })
     }
-    console.log("api hit")
-        console.log(req.body)
     // check pahale se user exist karta hai ya nai
     let user = await User.findOne({ email })
     if (!user) {
@@ -104,7 +100,8 @@ export const login = async (req, res) => {
         role: user.role
 
     }
-    return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true }).json({
+    return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true,
+    sameSite: "none"}).json({
         message: `Welcome back ${user.username}`,
         user,
         success: true
