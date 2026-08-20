@@ -39,5 +39,4 @@ app.use((err , req, res, next)=>{
     })
 })
 connectDB();
-
 export default app;

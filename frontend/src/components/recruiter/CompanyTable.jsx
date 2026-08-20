@@ -1,64 +1,108 @@
 import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from '../ui/table'
 import { Avatar, AvatarImage } from '../ui/avatar'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Edit2, MoreHorizontal } from 'lucide-react'
+import { Edit} from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
+import { FaTrash } from 'react-icons/fa'
 const CompanyTable = () => {
     const navigate = useNavigate()
-    const { companies ,searchCompanyByText } = useSelector(store => store.company)
-    const [filterCompany,setFilterCompany]= useState(companies)
 
-    useEffect(()=>{
-        const filteredCompany = companies.length >= 0 && companies.filter((company)=>{
-            if(!searchCompanyByText){
+    const { companies, searchCompanyByText } = useSelector(
+        (store) => store.company
+    )
+
+    const [filterCompany, setFilterCompany] = useState(companies)
+
+    useEffect(() => {
+        const filteredCompany = companies.filter((company) => {
+            if (!searchCompanyByText) {
                 return true
             }
-            return company?.companyName?.toLowerCase().includes(searchCompanyByText.toLowerCase())
+
+            return company?.companyName
+                ?.toLowerCase()
+                .includes(searchCompanyByText.toLowerCase())
         })
+
         setFilterCompany(filteredCompany)
-    },[companies,searchCompanyByText])
+    }, [companies, searchCompanyByText])
+
     return (
         <div>
             <Table>
-                <TableCaption>List of recent register companies</TableCaption>
-                <TableHeader>
-                    <TableRow>
+                <TableCaption>
+                    List of recent registered companies
+                </TableCaption>
+
+                <TableHeader >
+                    <TableRow className={"flex items-center justify-between"}>
                         <TableHead>Logo</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Date</TableHead>
                         <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
-                {
-                    companies && companies?.length <= 0 ? (<span>No company register yet</span>) : (
-                        filterCompany?.map((company) => (<>
-                                <TableBody>
-                                    <TableCell>
-                                        <Avatar className="h-12 w-12 rounded-xl border border-gray-100 shadow-sm">
-                                            <AvatarImage src={company?.logo} />
-                                        </Avatar>
-                                    </TableCell>
-                                    <TableCell>{company?.companyName}</TableCell>
-                                    <TableCell>{(company?.createdAt).split("T")[0]}</TableCell>
-                                    <TableCell>
-                                        <Popover>
-                                            <PopoverTrigger className="cursor-pointer" ><MoreHorizontal /></PopoverTrigger>
-                                            <PopoverContent className={"w-25"}>
-                                                <div className="flex items-center gap-2 cursor-pointer">
-                                                    <Edit2 className='w-4' />
-                                                    <span onClick={() => navigate(`/company/${company?._id}`)} >Edit</span>
-                                                </div>
-                                            </PopoverContent>
-                                        </Popover>
-                                    </TableCell>
-                                </TableBody>
-                            </>
+
+                <TableBody>
+                    {companies.length === 0 ? (
+                        <TableRow>
+                            <TableCell
+                                colSpan={4}
+                                className="text-center"
+                            >
+                                No company registered yet
+                            </TableCell>
+                        </TableRow>
+                    ) : filterCompany.length === 0 ? (
+                        <TableRow>
+                            <TableCell
+                                colSpan={4}
+                                className="text-center"
+                            >
+                                No matching companies found
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        filterCompany.map((company) => (
+                            <TableRow key={company._id} className={"flex items-center justify-between"}>
+                                <TableCell>
+                                    <Avatar className="h-12 w-12 rounded-xl border border-gray-100 shadow-sm">
+                                        <AvatarImage
+                                            src={company?.logo}
+                                            alt={company?.companyName}
+                                        />
+                                    </Avatar>
+                                </TableCell>
+
+                                <TableCell>
+                                    {company?.companyName}
+                                </TableCell>
+
+                                <TableCell>
+                                    {company?.createdAt?.split('T')[0]}
+                                </TableCell>
+
+                                <TableCell className={"flex gap-4 items-center "}>
+                                    <Edit className='w-4 cursor-pointer hover:text-blue-700' onClick={() =>
+                                        navigate(
+                                            `/company/${company?._id}`
+                                        )
+                                    } />
+                                    <FaTrash className='w-4 text-red-700 cursor-pointer' />
+                                </TableCell>
+                            </TableRow>
                         ))
-                    )
-                }
+                    )}
+                </TableBody>
             </Table>
         </div>
     )

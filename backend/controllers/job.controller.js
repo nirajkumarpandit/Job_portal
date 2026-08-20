@@ -65,7 +65,8 @@ export const getAllJob=async(req,res)=>{
     const query={
         $or:[
             {title:{$regex:keyword, $options:"i"}},
-            {description:{$regex:keyword, $options:"i"}}
+            {description:{$regex:keyword, $options:"i"}},
+            {location:{$regex:keyword, $options:"i"}},
         ]
     }
     const jobs=await Job.find(query).populate({
@@ -77,6 +78,7 @@ export const getAllJob=async(req,res)=>{
             success:false
         })
     }
+    
     return res.status(200).json({
         jobs,
         success:true

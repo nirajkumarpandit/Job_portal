@@ -1,16 +1,18 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
+import { useDispatch } from 'react-redux'
+import { setSearchQuery } from '@/redux/jobSlice'
 
 const filterArray=[
     {
         filterType:"Location",
-        array:["Delhi NCR","Bangalore","Hyderabad","Pune","Mumbai"]
+        array:["Delhi NCR","Bangalore","Hyderabad","Goa","Mumbai"]
     },
     {
         filterType:"Industry",
-        array:["Frontend Developer","Fullstack developer", "Backend developer"]
+        array:["Frontend developer","Full stack developer", "Backend developer"]
     },
     {
         filterType:"Salary",
@@ -18,21 +20,30 @@ const filterArray=[
     },
 ]
 const FilterCard = () => {
+    const [selectedValue , setSelectedValue]=useState('');
+    const dispatch =useDispatch()
+    const filterHandler=(value)=>{
+        setSelectedValue(value)
+    }
+    useEffect(()=>{
+        dispatch(setSearchQuery(selectedValue))
+    },[selectedValue])
   return (
     <div>
         <h1 className='text-xl font-bold  mb-2'>Filter Job</h1>
         <hr />
-        <RadioGroup>
+        <RadioGroup value={selectedValue} onValueChange={filterHandler} >
             {
                 filterArray.map((data,index)=>(
-                   <div>
+                   <div key={index}>
                     <h1 className='text-lg font-medium'>{data.filterType}</h1>
                     {
-                        data.array.map((item,index)=>{
+                        data.array.map((item,idx)=>{
+                            const itemId =`id${index}-${idx}`
                             return(
-                                <div className='flex gap-3 my-2 text-sm'>
-                                    <RadioGroupItem className={"cursor-pointer"} value={item}/>
-                                    <Label>{item}</Label>
+                                <div className='flex gap-3 my-2 text-sm' key={itemId}>
+                                    <RadioGroupItem className={"cursor-pointer"} key={itemId} value={item}/>
+                                    <Label htmlFor={itemId} >{item}</Label>
                                 </div>
                             )
                         })

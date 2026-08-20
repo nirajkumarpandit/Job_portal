@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Contact2, Mail, Pen } from 'lucide-react'
@@ -7,11 +7,13 @@ import AppliedJobTable from './AppliedJobTable'
 import Footer from '../shared/Footer'
 import { Button } from '../ui/button'
 import UpdateProfile from './UpdateProfile'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 const Profile = () => {
   let isResume=true
   const [open, setOpen] = useState(false)
+  useGetAppliedJobs()
   const {user}=useSelector(store=>store.auth)
   return (
     <div>
@@ -55,7 +57,7 @@ const Profile = () => {
         </div>
       </div>
       <div className='max-w-3xl mx-auto'>
-        <AppliedJobTable/>
+       <AppliedJobTable/>
       </div>
       <UpdateProfile open={open} setOpen={setOpen} />
       <Footer/>

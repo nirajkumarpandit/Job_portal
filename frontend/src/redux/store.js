@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authSlice from "./authSlice";
 import jobSlice from "./jobSlice";
 import companySlice from './companySlice'
+import applicantSlice from './applicantSlice'
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage use karega
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   auth: authSlice,
   job: jobSlice,
   company:companySlice,
+  applicant:applicantSlice
 });
 
 // Persisted reducer

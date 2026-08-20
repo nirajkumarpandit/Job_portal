@@ -12,6 +12,8 @@ import CreateCompany from "./components/recruiter/CreateCompany"
 import CompanySetup from "./components/recruiter/CompanySetup"
 import RecruiterJobs from "./components/recruiter/RecruiterJobs"
 import JobPost from "./components/recruiter/JobPost"
+import Applicant from "./components/recruiter/Applicant"
+import ProtectedRoute from "./components/recruiter/ProtectedRoute"
 
 const appRouter= createBrowserRouter([
   {
@@ -44,23 +46,27 @@ const appRouter= createBrowserRouter([
   // recruiter ka route
   {
     path :'/companies',
-    element :<Companies/>
+    element :<ProtectedRoute><Companies/></ProtectedRoute>
   },
   {
     path :"/company/create",
-    element :<CreateCompany/>
+    element :<ProtectedRoute><CreateCompany/></ProtectedRoute>
   },
   {
     path :"/company/:id",
-    element :<CompanySetup/>
+    element :<ProtectedRoute><CompanySetup/></ProtectedRoute>
   },
   {
     path :"/recruiterJob",
-    element:<RecruiterJobs/>
+    element:<ProtectedRoute><RecruiterJobs/></ProtectedRoute>
   },
   {
     path :"/job/create",
-    element:<JobPost/>
+    element:<ProtectedRoute><JobPost/></ProtectedRoute>
+  },
+  {
+    path:"/job/:id/applicant",
+    element :<ProtectedRoute><Applicant/></ProtectedRoute>
   }
 ])
 function App() {

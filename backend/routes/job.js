@@ -10,4 +10,5 @@ router.route("/get/:id").get(isAuthenticate,wrapAsync(getJobById))
 router.route("/getAdminJobs").get(isAuthenticate,wrapAsync(getAdminJob))
 router.route("/delete/:id").get(isAuthenticate,wrapAsync(deleteJob))
 
+
 export default router
