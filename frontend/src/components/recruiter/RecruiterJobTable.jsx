@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux'
 import { FaTrash } from 'react-icons/fa'
 import { toast } from 'sonner'
 import axios from 'axios'
-import { JOB_API_END_POINT } from '@/utils/constant'
 
 const RecruiterJobTable = () => {
     const navigate = useNavigate()
@@ -51,7 +50,7 @@ const RecruiterJobTable = () => {
 
      const jobDeleteHandler =async(id)=>{
         try {
-            const res =await axios.get(`${JOB_API_END_POINT}/delete/${id}`,{withCredentials:true})
+            const res =await axios.get(`${import.meta.env.VITE_JOB_API_END_POINT}/delete/${id}`,{withCredentials:true})
             if(res.data.success){
                 toast.success(res.data.success)
             }

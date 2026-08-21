@@ -17,13 +17,12 @@ import {MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import axios from 'axios'
-import { APPLICATION_API_END_POINT } from '@/utils/constant'
 
 const ApplicantTable = () => {
     const { allApplicant } = useSelector(store => store.applicant)
     const statusHandler = async (status,id) => {
         try {
-            const res = await axios.put(`${APPLICATION_API_END_POINT}/status/${id}/update`,{status},{withCredentials:true})
+            const res = await axios.put(`${import.meta.env.VITE_APPLICATION_API_END_POINT}/status/${id}/update`,{status},{withCredentials:true})
             if(res.data.success){
                 toast.success(res.data.message)
             }

@@ -1,7 +1,5 @@
 
 import { setAllApplicant } from '@/redux/applicantSlice'
-import { setAdminJobs } from '@/redux/jobSlice'
-import { APPLICATION_API_END_POINT } from '@/utils/constant'
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -14,7 +12,7 @@ const useGetAllApplicant = () => {
     useEffect(() => {
       const fetchApplicant =async()=>{
         try {
-            const res= await axios.get(`${APPLICATION_API_END_POINT}/${params.id}/applicant` ,{withCredentials :true} )
+            const res= await axios.get(`${import.meta.env.VITE_APPLICATION_API_END_POINT}/${params.id}/applicant` ,{withCredentials :true} )
             if(res?.data?.success){
                 dispatch(setAllApplicant(res?.data?.job?.applications))
             }

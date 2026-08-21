@@ -14,7 +14,6 @@ import { Button } from '../ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogOut, User2Icon } from 'lucide-react'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
 
@@ -24,7 +23,7 @@ const Navbar = () => {
     const navigate = useNavigate()
     const logoutHandler = async () => {
         try {
-            const res = await axios.post(`${USER_API_END_POINT}/logout`, { withCredentials: true })
+            const res = await axios.post(`${import.meta.env.VITE_USER_API_END_POINT}/logout`, { withCredentials: true })
             if (res.data.success) {
                 dispatch(setUser(null))
                 navigate('/')

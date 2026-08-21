@@ -5,7 +5,6 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import axios from 'axios'
-import { JOB_API_END_POINT } from '@/utils/constant'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux'
@@ -41,7 +40,7 @@ const JobPost = () => {
     e.preventDefault()
     try {
       setLoading(true)
-      const res = await axios.post(`${JOB_API_END_POINT}/postJob`,input, {
+      const res = await axios.post(`${import.meta.env.VITE_JOB_API_END_POINT}/postJob`,input, {
         headers:{
           "Content-Type":"application/json"
         },

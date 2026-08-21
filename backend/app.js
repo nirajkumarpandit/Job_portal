@@ -15,7 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 const corsOption={
-    origin: 'https://job-frontend-bice.vercel.app',
+    origin: process.env.FRONTEND_URL,
     credentials:true
 }
 
@@ -39,4 +39,7 @@ app.use((err , req, res, next)=>{
     })
 })
 connectDB();
+app.listen(PORT,()=>{
+    console.log(`server listining on ${PORT}`)
+})
 export default app;

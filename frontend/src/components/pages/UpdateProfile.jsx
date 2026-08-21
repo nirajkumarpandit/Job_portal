@@ -6,7 +6,6 @@ import { Button } from '../ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { Loader2 } from 'lucide-react'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
 
@@ -40,7 +39,7 @@ const UpdateProfile = ({ open, setOpen }) => {
         }
         try {
             setLoading(true)
-            const res=await axios.post(`${USER_API_END_POINT}/update`,formData,{
+            const res=await axios.post(`${import.meta.env.VITE_USER_API_END_POINT}/update`,formData,{
                 headers:{
                     "Content-Type":'multipart/form-data'
                 },

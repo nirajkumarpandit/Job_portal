@@ -6,7 +6,6 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { Loader2, User, Mail, Lock, Phone, ImagePlus } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,7 +44,7 @@ const Signup = () => {
         }
         try {
             dispatch(setLoading(true))
-            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+            const res = await axios.post(`${import.meta.env.VITE_USER_API_END_POINT}/register`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
